@@ -6,7 +6,7 @@ import path from "path";
 import authRoutes from "./routes/authRoute.js"
 import messageRoutes from "./routes/message.routes.js"
 import userRoutes from "./routes/userRoute.js"
-
+import friendRequestRoutes from "./routes/friendrequest.route.js"
 
 import connectToMongoDB from "./db/connectToMongoDB.js";
 import { app, server } from "./socket/socket.js";
@@ -25,6 +25,7 @@ app.use(cors());
 app.use("/api/auth",authRoutes)
 app.use("/api/messages",messageRoutes)
 app.use("/api/users",userRoutes)
+app.use('/api/friend-requests', friendRequestRoutes)
 
 app.use(express.static(path.join(__dirname,"/frontend/dist")))
 

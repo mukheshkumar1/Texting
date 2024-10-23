@@ -1,0 +1,58 @@
+/* Overlay to dim the background */
+.crop-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8); /* Black overlay with transparency */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure it's above other elements */
+  }
+  
+  /* Container for the cropper and buttons */
+  .crop-modal-content {
+    position: relative;
+    width: 80vw;
+    max-width: 400px;
+    height: 80vh;
+    max-height: 400px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Modal control buttons */
+  .modal-controls {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 20px;
+  }
+  
+  .cancel-btn, .save-btn {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .cancel-btn {
+    background-color: #dc3545; /* Red for Cancel */
+  }
+  
+  .cancel-btn:hover, .save-btn:hover {
+    opacity: 0.8;
+  }
+  

@@ -2,6 +2,8 @@ import SearchInput from "./SearchInput";
 import Conversations from "./Conversations";
 import LogoutButton from "./LogoutButton";
 import ProfileButton from "./ProfileButton";
+import NotificationButton from "./notificationButton";
+import AddFriendsButton from "./addfriendButton";
 
 const Sidebar = () => {
   return (
@@ -19,6 +21,8 @@ const Sidebar = () => {
       <Conversations />
       <div className="flex justify-between items-center mt-4">
         <LogoutButton title="Logout" />
+        <AddFriendsButton title="Add friends"/>
+        <NotificationButton title="Notifications"/>
         <ProfileButton title="Profile" />
       </div>
     </div>

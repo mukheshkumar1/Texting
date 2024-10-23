@@ -14,9 +14,14 @@ const useGetMessages = () => {
         if (!selectedConversation?._id) return; // Exit if no conversation ID
 
         const res = await fetch(`/api/messages/${selectedConversation._id}`);
-        const data = await res.json();
+        
+        // Check for response status and handle errors
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.error || "Failed to fetch messages.");
+        }
 
-        if (data.error) throw new Error(data.error);
+        const data = await res.json();
 
         // Ensure data is an array before setting
         const validMessages = Array.isArray(data) ? data : [];

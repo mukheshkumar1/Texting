@@ -10,6 +10,8 @@ import ResetPassword from './pages/reset-password/reset-password'
 import ProfilePage from './pages/profile-page/profile'
 import ProfilePicturePage from './pages/profile-page/userprofile'
 import Conversation from './components/sidebar/Conversation'
+import Notifications from './pages/notifications/notifications'
+import AddFriends from './pages/send-request/sendrequest'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function App() {
@@ -22,6 +24,8 @@ function App() {
    <Route path='/signup' element={authUser ? <Navigate to="/"/>: <SignUp/>}/>
    <Route path="/forgot-password" element={<ForgotPassword/>} />
    <Route path="/reset-password/:token" element={<ResetPassword/>} />
+   <Route path="/sendrequest" element={authUser ? <AddFriends/>: <Navigate to={"/"}/>}/>
+   <Route path='/notifications' element={authUser ? <Notifications/>: <Navigate to={"/"}/>}/>
    <Route path="/profile" element={authUser ?<ProfilePage/>: <Navigate to={"/"}/>}/>
    <Route path="/" element={<Conversation />} />
    <Route path="/profile-picture/:profilePicUrl" element={<ProfilePicturePage />} />

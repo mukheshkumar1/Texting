@@ -2,6 +2,8 @@ import User from "../models/user.model.js";
 import bcrypt from "bcryptjs"
 import crypto from "crypto";
 import multer from "multer";
+import { cloudinary } from "../utils/cloudinary.js"; // Update the path to where your cloudinary.js file is located
+
 
 import sendEmail from "../utils/sendEmail.js";
 import generateTokenAndSetCookie from "../utils/generateToken.js";
@@ -150,13 +152,50 @@ export const resetPassword = async (req, res) => {
     }
 };
 
+
+
+
+// Update Profile controller
 export const updateProfile = async (req, res) => {
     try {
-      // Cloudinary automatically attaches the uploaded image's URL in `req.file.path`
-      const profilePic = req.file ? req.file.path : null;
+      let profilePic;
   
-      if (!profilePic) {
-        return res.status(400).json({ error: "No profile picture uploaded" });
+      // Check if the delete picture request is made
+      if (req.body.deleteProfilePic === 'true') {
+        console.log('Delete profile picture request received');
+        const user = await User.findById(req.user._id);
+  
+        if (!user) {
+          console.log('User not found');
+          return res.status(404).json({ error: "User not found" });
+        }
+  
+        // Set default profile picture based on gender
+        profilePic =
+          user.gender === "male"
+            ? `https://avatar.iran.liara.run/public/boy?username=${user.userName}`
+            : `https://avatar.iran.liara.run/public/girl?username=${user.userName}`;
+  
+        console.log('Default profile picture set:', profilePic);
+  
+        // Delete the old image from Cloudinary if it exists
+        if (user.profilePic) {
+          const publicId = user.profilePic.split('/').pop().split('.')[0]; // Extract public ID
+          console.log('Deleting Cloudinary image with public ID:', publicId);
+          await cloudinary.v2.uploader.destroy(publicId); // Delete the image from Cloudinary
+        }
+      } else if (req.file) {
+        profilePic = req.file.path; // This should now point to the Cloudinary URL if using multer correctly
+      } else {
+        const user = await User.findById(req.user._id);
+        if (!user) {
+          return res.status(404).json({ error: "User not found" });
+        }
+  
+        profilePic =
+          user.gender === "male"
+            ? `https://avatar.iran.liara.run/public/boy?username=${user.userName}`
+            : `https://avatar.iran.liara.run/public/girl?username=${user.userName}`;
       }
   
       const updateData = { profilePic };
@@ -173,7 +212,3 @@ export const updateProfile = async (req, res) => {
       res.status(500).json({ error: "Internal server error" });
     }
   };
-  
-  
-
-  

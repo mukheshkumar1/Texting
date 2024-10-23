@@ -1,29 +1,28 @@
-import { useEffect, useState } from "react"
-import toast from "react-hot-toast"
+// src/hooks/useGetConversations.js
+import { useEffect, useState } from 'react';
+import axiosInstance from '../Context/axiosinstance.js';
 
 const useGetConversations = () => {
-  const [loading,setLoading] = useState(false)
-  const[conversations,setConversations]= useState([])
+  const [conversations, setConversations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  useEffect(() =>{
-    const getConversations = async () => {
-        setLoading(true);
-        try {
-            const res = await fetch("/api/users")
-            const data= await res.json()
-            if(data.error) {
-                throw new Error(data.error)
-            }
-            setConversations(data)
-        } catch (error) {
-            toast.error(error.message)
-        }finally{
-            setLoading(false)
-        }
-    }
-    getConversations()
-  },[])
-  return {loading,conversations}
-}
+  useEffect(() => {
+    const fetchConversations = async () => {
+      try {
+        const response = await axiosInstance.get('/friend-requests');
+        setConversations(response.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-export default useGetConversations
+    fetchConversations();
+  }, []);
+
+  return { conversations, loading, error };
+};
+
+export default useGetConversations;

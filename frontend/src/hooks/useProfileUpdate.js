@@ -24,6 +24,7 @@ const useUpdateProfile = () => {
       const authUser = JSON.parse(localStorage.getItem("chat-user"));
       authUser.fullName = fullName;
       authUser.profilePic = profilePic;
+      authUser.email = email;
       localStorage.setItem("chat-user", JSON.stringify(authUser));
       setAuthUser(authUser);
       toast.success("Profile updated successfully");
